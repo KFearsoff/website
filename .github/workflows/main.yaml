@@ -1,0 +1,45 @@
+name: Build mdbook
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  get-version:
+    uses: Acum-LTD/actions/.github/workflows/get-version.yaml@v1
+    permissions:
+      contents: read
+    with:
+      release_branches: main
+
+  update-version:
+    uses: Acum-LTD/actions/.github/workflows/update-version.yaml@v1
+    needs: get-version
+    permissions:
+      contents: write
+    with:
+      with-helm: true
+      tag: ${{ needs.get-version.outputs.version }}
+      version: ${{ needs.get-version.outputs.version }}
+      release_branches: main
+
+  docker:
+    uses: Acum-LTD/actions/.github/workflows/docker.yaml@v1
+    needs: [get-version, update-version]
+    permissions:
+      contents: read
+      packages: write
+    with:
+      sha: ${{ needs.get-version.outputs.sha }}
+      tag: ${{ needs.get-version.outputs.tag }}
+
+  release:
+    uses: Acum-LTD/actions/.github/workflows/release.yaml@v1
+    needs: [get-version, docker]
+    permissions:
+      contents: write
+    if: ${{ github.ref_name == 'main' }}
+    with:
+      tag: ${{ needs.get-version.outputs.tag }}
+      changelog: ${{ needs.get-version.outputs.changelog }}
+      release_branches: main
