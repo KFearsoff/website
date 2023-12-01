@@ -46,6 +46,25 @@
             mdbook-admonish
           ];
         };
+
+        packages.default = with pkgs;
+          stdenv.mkDerivation {
+            pname = "nixalted-website";
+            version = "0.1.0";
+
+            src = ./.;
+
+            buildInputs = [
+              mdbook
+              mdbook-mermaid
+              mdbook-admonish
+            ];
+
+            buildPhase = ''
+              mdbook build
+              cp -r book $out
+            '';
+          };
       };
       flake = {
         # The usual flake attributes can be defined here, including system-
