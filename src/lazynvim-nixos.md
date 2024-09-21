@@ -195,7 +195,7 @@ programs.neovim = {
 ~        },
       dev = {
         path = "${pkgs.vimUtils.packDir config.home-manager.users.USERNAME.programs.neovim.finalPackage.passthru.packpathDirs}/pack/myNeovimPackages/start",
-        patterns = {"folke"}, -- Specify that "folke/which-key.nvim" will use our dev dir
+        patterns = {""}, -- Specify that all of our plugins will use the dev dir. Empty string is a wildcard!
       },
 ~      install = {
 ~        -- Safeguard in case we forget to install a plugin with Nix
@@ -209,16 +209,9 @@ programs.neovim = {
 And at this point, you can `git add .` and rebuild your configuration; you should
 now have Neovim set up with `lazy.nvim` and `which-key` plugin. Congrats!
 
-```admonish question
-If you've been paying close attention to what changed between the steps, you have
-probably noticed that in the last step, we added `dev.patterns = {"folke"}`. Why
-not wildcard?
-
-The sad answer is that there's no wildcard. The pattern matcher used in `lazy.nvim`
-doesn't support them. Which means that we unfortunately have to add new entries
-to it when we add a new plugin: if we installed a plugin "hrsh7th/nvim-cmp", we
-need to add "hrsh7th" to `dev.patterns`. I'm about to submit an issue to fix that,
-pinky swear. But for now it is what it is.
+```admonish tip
+In the last step, we have added `dev.patterns = {""}` line. The empty string functions
+as a wild card, as pointed out by [lazy.nvim creator](https://github.com/folke/lazy.nvim/pull/1676#issuecomment-2248942233).
 ```
 
 ## Installing Treesitters
@@ -258,6 +251,13 @@ return {
 ```
 
 There, we basically override the location for compiling treesitters to `~/.cache/nvim/treesitters`.
+
+## Other Incompatibilities
+
+Make sure you don't install [mason.nvim](https://github.com/williamboman/mason.nvim) and [mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim).
+Reading the intro README tells us all we need to know: mason.nvim is a package manager. We don't want
+that! We already have one of our own. The same applies to [mason-nvim-dap.nvim](https://github.com/jay-babu/mason-nvim-dap.nvim)
+and other extensions for mason.nvim - you don't want to install packages with Neovim.
 
 ## Examples
 
