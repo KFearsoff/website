@@ -265,4 +265,4 @@ As an example, you can check my Neovim config on NixOS!
 
 Config at the time of the writing: <https://github.com/KFearsoff/NixOS-config/tree/088641c3527f1027ebd366a9abb5cc557cd6f0c1/modules/neovim>
 
-Latest config: <https://github.com/KFearsoff/NixOS-config/tree/main/modules/neovim>
+Latest config: <https://github.com/KFearsoff/NixOS-config/tree/main/nixosModules/neovim>
