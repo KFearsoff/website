@@ -3,3 +3,7 @@ book
 .devenv
 .pre-commit-config.yaml
 result
+
+# WIP
+node_modules/
+public/
