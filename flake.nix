@@ -29,7 +29,7 @@
         packages = [
           pkgs.mdbook
           pkgs.mdbook-mermaid
-          pkgs.mdbook-admonish
+          # pkgs.mdbook-admonish
         ];
 
         inherit (inputs.self.checks.x86_64-linux.pre-commit-check) shellHook;
@@ -45,7 +45,7 @@
         buildInputs = [
           pkgs.mdbook
           pkgs.mdbook-mermaid
-          pkgs.mdbook-admonish
+          # pkgs.mdbook-admonish
         ];
 
         buildPhase = ''
